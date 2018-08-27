@@ -410,6 +410,19 @@ find :
             从 -exec 到 \; 是关键字，{}表示由find找到的内容，find的结果会被放置到{}中。
         -print : 将结果打印到屏幕上（默认操作）
         此外，find还可以使用通配符，如：*
+    5 命令行修改权限应用：
+      把当前目录下所有的shell脚本都新增可执行权限
+      $ chmod a+x `find -name "*.sh"`
+      查找当前目录下，所有以.cpp结尾的文件例子
+      $ find ./ -name "*.cpp"
+      如果想指定目录查找，比如在/data/home/zhushh/code下面查找.cpp结尾文件：
+      $ find /data/home/zhushh/code -name "*.cpp"
+      查找文件名为album的文件或目录，当前目录./默认是可以不用写的：
+      $ find ./ -name "album"
+      $ find -name "album"
+      与xargs命令一起使用，搜索文件内容包含某字段的地方，比如搜索"album" 或者"process"字段：
+      $ find -name "*.cpp" | xargs grep "album"
+      $ find -name "*.h" | xargs grep "process"
 ```
 
 四 磁盘与文件系统管理
