@@ -84,6 +84,7 @@ var-kept:
 ```
 最后一个方法是加上`.ONESHELL:`命令：
 ```
+.ONESHELL:
 var-kept:
 	export foo=bar
 	echo "foo=[$$foo]"
