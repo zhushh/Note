@@ -1,0 +1,76 @@
+### 官方文档
+
+[https://docs.djangoproject.com/zh-hans/2.1/](https://docs.djangoproject.com/zh-hans/2.1/)
+
+
+
+### 安装过程
+
+##### mysql安装
+
+[http://wiki.ubuntu.org.cn/MySQL%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97](http://wiki.ubuntu.org.cn/MySQL%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97)
+
+其中链接进去mysql使用命令是：
+
+```
+$ mysql -u root -pxxx
+```
+
+`-p`参数后面的是密码
+
+
+
+##### pip安装
+
+参考链接
+
+[https://pip.pypa.io/en/latest/installing/#installing-with-get-pip-py](https://pip.pypa.io/en/latest/installing/#installing-with-get-pip-py)
+
+
+
+##### virtualenv和virtualenvwrapper安装
+
+参考链接
+
+[https://virtualenv.pypa.io/en/latest/](https://virtualenv.pypa.io/en/latest/)
+
+[https://virtualenvwrapper.readthedocs.io/en/latest/](https://virtualenvwrapper.readthedocs.io/en/latest/)
+
+
+
+##### django安装
+
+上面步骤执行完成后，直接执行`pip install Django`即可，如果遇到下面错误，按照上面提示进行处理：
+
+```
+Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-install-eTTTFu/django/
+```
+
+![img](C:\Users\SSHUAN~1\AppData\Local\Temp\企业微信截图_15434128751241.png)
+
+执行命令：
+
+```
+$ python -m pip install --upgrade pip setuptools
+$ python -m pip install django
+$ python -m pip install "django<2"
+```
+
+OK，完成安装可以使用了~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
