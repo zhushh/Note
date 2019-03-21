@@ -1,16 +1,28 @@
-### SQL
+#### SQL
 
-查看表创建信息
+##### 查看表创建信息
 
 ```sql
 db> show create table tbl_user_login;
 ```
 
-详细查看一条记录
+##### 详细查看一条记录
 
 ```sql
 db> select * from tbl_user_login limit 1\G
 ```
+
+##### Binlog
+
+主要应用于数据复制和恢复
+
+```sql
+mysql> show variables like '%log_bin%';
+mysql> show binary logs;
+mysql> show master status;
+```
+
+https://zhuanlan.zhihu.com/p/33504555
 
 
 

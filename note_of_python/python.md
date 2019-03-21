@@ -1,3 +1,16 @@
+#### hashlib
+
+```python
+from hashlib import sha256
+
+with open('words', 'r') as f:
+    for line in f:
+        hashword = sha256(line.rstrip()).hexdigest()
+        print(hashword)
+```
+
+
+
 #### redis使用
 
 使用`pipeline`优化速度
