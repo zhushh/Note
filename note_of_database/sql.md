@@ -1,3 +1,25 @@
+#### 创建procedure并执行
+
+```sql
+MySQL [flow]> delimiter //
+MySQL [flow]> create procedure drop_table(in start_num int, in end_num int)
+    -> begin
+    -> declare i int;
+    -> set i = start_num;
+    -> while i < end_num do
+    -> 		set @tblName = concat("wf_documents_1", i);
+    -> 		set @statement = concat("drop table ", @tblName);
+    -> 		prepare stmt from @statement;
+    -> 		execute stmt;
+    -> 		set i = i + 1;
+    -> end while;
+    -> end//
+MySQL [flow]> delimiter ;
+MySQL [flow]> call drop_table(11, 70);
+```
+
+
+
 #### SQL
 
 ##### 查看表创建信息
