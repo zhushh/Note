@@ -1,3 +1,102 @@
+#### go mod拉取最新代码
+
+执行命令：
+
+```
+go mod edit -replace=git.code.oa.com/going/gojce@v0.1.0=git.code.oa.com/going/gojce@master
+```
+
+
+
+#### interface 转 struct
+
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type People struct {
+	Name string
+	Age int
+}
+
+func Print(s interface{}) {
+	p := reflect.New(reflect.TypeOf(s).Elem()).Interface()
+    // 如果想要使用指针，按下面方式转换
+    // personPtr := p.(*People)
+	person := (*(p.(*People)))
+	person.Name = "xxx"
+	person.Age = 32
+	fmt.Printf("person: %+v", person)
+}
+
+func main() {
+	Print((*People)(nil))
+}
+```
+
+
+
+
+
+#### for range的问题
+
+下面这段代码会导致rsp的DiamondHistoryItems引用的都是同一个地址，因为都是引用for-range里声明的item地址，导致出现与自己预期的有些不一致。
+
+```go
+switch req.Type {
+case purse.GetDiamondHistoryReq_DiamondSend:
+    //err = handleGetDiamondSend(ctx, req, rsp)
+    for _, item := range PurchaseBillRecordConf.PurchaseBillRecord {
+        rsp.DiamondHistoryItems = append(rsp.DiamondHistoryItems, &item)
+    }
+case purse.GetDiamondHistoryReq_DiamondRecv:
+    //err = handleGetDiamondRecv(ctx, req, rsp)
+    for _, item := range PurchaseBillRecordRecvConf.PurchaseBillRecord {
+        rsp.DiamondHistoryItems = append(rsp.DiamondHistoryItems, &item)
+    }
+default:
+    err = qmf_errors.New("diamond history type invalid.", PurseDiamondHistoryTypeInvalid)
+}
+```
+
+这种在for-range的使用中非常常见。。。
+
+
+
+#### 加密使用
+
+```go
+package main
+
+import (
+    "crypto/sha256"
+    "fmt"
+    "strconv"
+    "time"
+)
+
+func signature(data []byte) string {
+    h := sha256.New()
+    h.Write(data)
+    hashInBytes := h.Sum(nil)
+    return fmt.Sprintf("%x", hashInBytes)
+}
+
+func main() {
+    now := time.Now().Unix()
+
+    ts := strconv.FormatInt(now, 10)
+    fmt.Println(signature([]byte(ts)))
+}
+
+```
+
+
+
 #### GoMonkey打桩工具及原理
 
 原理就是替换掉函数执行的跳转地址
@@ -186,6 +285,39 @@ func test() {
     
     t, _ := time.ParseInLocation(time.RFC3339, rfc3339_t, loc)
     fmt.Printf("cur: %s\n", t)
+}
+```
+
+
+
+时戳转换日期：
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func getDateByTimeStamp(timeStamp int64) string {
+	//loc, _ := time.LoadLocation("Local")
+	timeNow := time.Unix(timeStamp, 0)
+	timeString := timeNow.Format("2006-01-02 15:04:05")
+	return timeString
+}
+
+func main() {
+	var (
+		d1 int64 = 1560416308
+		d2 int64 = 1560416261
+		d3 int64 = 1560416238
+		d4 int64 = 1560416236
+	)
+	fmt.Printf("timestamp=%d, date=%s\n", d1, getDateByTimeStamp(d1))
+	fmt.Printf("timestamp=%d, date=%s\n", d2, getDateByTimeStamp(d2))
+	fmt.Printf("timestamp=%d, date=%s\n", d3, getDateByTimeStamp(d3))
+	fmt.Printf("timestamp=%d, date=%s\n", d4, getDateByTimeStamp(d4))
 }
 ```
 
