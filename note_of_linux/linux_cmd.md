@@ -666,6 +666,8 @@ tar:
         # tar -jcv -f filename.tar.bz2 filename
         # tar -jtv -f filename.tar.bz2
         # tar -xjv -f filename.tar.bz2 -C directory
+        # tar zcvf directory.tar.gz directory
+        # tar zxvf directory.tar.gz
 ```
 
 dump:   完整备份整个文件系统
