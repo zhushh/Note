@@ -1,3 +1,52 @@
+#### 遍历目录
+
+```go
+func GetFileList(dirPath string) []string {
+	fileList := []string{}
+	PthSep := string(os.PathSeparator)
+	dir, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		panic(err)
+	}
+	for _, fi := range dir {
+		//fiPath := dirPath + PthSep + fi.Name()
+		fiPath := fmt.Sprintf("%s%s%s", strings.TrimSuffix(dirPath, PthSep), PthSep, fi.Name())
+		if fi.IsDir() {
+			GetFileList(fiPath)
+		} else {
+			fileList = append(fileList, fiPath)
+		}
+	}
+
+	return fileList
+}
+```
+
+
+
+#### mysql
+
+处理时间**timestamp**或**datetime**的结构定义方式：
+
+```go
+import (
+	"database/sql"
+    
+    db "github.com/go-sql-driver/mysql"
+)
+
+// 用户信息
+type UserInfo struct{
+    Name 		sql.NullString `sql:"name"`
+    Age 		sql.NullString `sql:"age"`
+    CreateTime 	db.NullTime `sql:"create_time"`
+}
+```
+
+
+
+
+
 #### go mod拉取最新代码
 
 执行命令：
@@ -267,7 +316,7 @@ strByte := []byte(str)
 
 #### time
 
-RFC3339 time解析
+- RFC3339 time解析
 
 ```go
 import (
@@ -290,7 +339,7 @@ func test() {
 
 
 
-时戳转换日期：
+- 时戳转换日期：
 
 ```go
 package main
@@ -321,11 +370,111 @@ func main() {
 }
 ```
 
+- 获取格式化的当前时间日期：
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	date := time.Now().Format("2006-01-02")
+	fmt.Println(date)
+	fmt.Println(date[0:4] + date[5:7] + date[8:])
+    d := time.Now().Format("2006-01-02 15:04:05")
+    fmt.Println(d)
+}
+```
+
+- 字符串转时间：
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	str := "2019-06-27 18:38:08"
+	t, err := time.ParseInLocation("2006-01-02 15:04:05", str, time.Local)
+	if err != nil {
+		fmt.Printf("time.ParseInLocation err:%+v", err)
+		return
+	}
+
+	fmt.Printf("t = %v", t)
+}
+```
+
 
 
 
 
 #### slice
+
+##### slice排序(sort.Slice接口)
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("%s: %d", p.Name, p.Age)
+}
+
+// ByAge implements sort.Interface for []Person based on
+// the Age field.
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+func main() {
+	people := []Person{
+		{"Bob", 31},
+		{"John", 42},
+		{"Michael", 17},
+		{"Jenny", 26},
+	}
+
+	fmt.Println(people)
+	// There are two ways to sort a slice. First, one can define
+	// a set of methods for the slice type, as with ByAge, and
+	// call sort.Sort. In this first example we use that technique.
+	sort.Sort(ByAge(people))
+	fmt.Println(people)
+
+	// The other way is to use sort.Slice with a custom Less
+	// function, which can be provided as a closure. In this
+	// case no methods are needed. (And if they exist, they
+	// are ignored.) Here we re-sort in reverse order: compare
+	// the closure with ByAge.Less.
+	sort.Slice(people, func(i, j int) bool {
+		return people[i].Age > people[j].Age
+	})
+	fmt.Println(people)
+
+}
+```
+
+参考：https://golang.org/pkg/sort/
+
+
 
 ##### slice的append解析
 

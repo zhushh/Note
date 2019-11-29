@@ -1,3 +1,21 @@
+#### mysql时间戳与日期格式转换
+
+1.Unix时戳转换未日期函数：`From_unixtime`
+
+```
+select from_unixtime(1156219870);
+```
+
+2.日期转换为时间戳：`unix_timestamp`
+
+```
+select unix_timestamp('2006-11-04 12:23:00')
+```
+
+
+
+
+
 #### 创建procedure并执行
 
 ```sql
@@ -16,6 +34,25 @@ MySQL [flow]> create procedure drop_table(in start_num int, in end_num int)
     -> end//
 MySQL [flow]> delimiter ;
 MySQL [flow]> call drop_table(11, 70);
+```
+
+删除procedure命令：`drop procedure if exists test;`
+
+```
+delimiter //
+create procedure drop_table(in start_num int, in end_num int)
+begin
+declare i int;
+set i = start_num;
+while i < end_num do
+set @tblName = concat("wf_documents_1", i);
+set @statement = concat("drop table ", @tblName);
+prepare stmt from @statement;
+execute stmt;
+set i = i + 1;
+end while;
+end//
+delimiter ;
 ```
 
 
