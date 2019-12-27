@@ -411,6 +411,30 @@ func main() {
 }
 ```
 
+- 时间增加
+
+```go
+package main
+
+import (
+"fmt"
+"time"
+)
+
+func main() {
+	start := time.Date(2019, 12, 5, 0, 0, 0, 0, time.Local)
+
+	fmt.Printf("start = %+v\n", start)
+
+	end := start.AddDate(0, 0, 36500)
+
+	fmt.Printf("end = %+v\n", end)
+}
+// 输入如下:
+// start = 2019-12-05 00:00:00 +0800 CST
+// end = 2119-11-11 00:00:00 +0800 CST
+```
+
 
 
 
