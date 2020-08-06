@@ -264,6 +264,7 @@ A a;
 ```
 
 ### 动态建立
+
 动态建立类的对象，是使用new运算符将对象建立在堆空间中，这个过程分两步，第一步是执行operator new()函数，在堆空间中搜索合适的内存并进行分配；第二步是调用构造函数构造对象，初始化这片内存空间；这种方法，间接调用类的构造函数。
 ```c++
 class A {
@@ -697,6 +698,7 @@ int main()
 ### 左值引用和右值引用
 [http://en.cppreference.com/w/cpp/language/reference](http://en.cppreference.com/w/cpp/language/reference)
 ```
+
 ```
 
 ### 移动构造函数和赋值运算符
