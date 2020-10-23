@@ -132,3 +132,47 @@ int main(int argc, char const *argv[])
     return 0;
 }
 ```
+
+
+
+## RFC3339时间
+
+秒时戳转RFC3339时间格式example:
+
+```c++
+#include <ctime>
+#include <cstring>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+std::string GetRFC3339TimeStr(time_t seconds)
+{
+  tm ptm;
+  localtime_r(&seconds, &ptm);
+
+  char buf[100];
+  size_t len = strftime(buf, sizeof(buf) - 1, "%FT%T%z", &ptm);
+  if (len > 1)
+  {
+    char minute[] = {buf[len - 2], buf[len - 1], '\0'};
+    sprintf(buf + len - 2, ":%s", minute);
+  }
+
+  return std::string(buf);
+}
+
+int main()
+{
+  int sec;
+  while (cin >> sec)
+  {
+    cout << GetRFC3339TimeStr(sec) << endl;
+  }
+
+  return 0;
+}
+```
+
