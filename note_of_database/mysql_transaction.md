@@ -12,7 +12,7 @@
 | 4        |                                                        | update user set name = ‘mongo’ where id = 1; |
 | 5        | select name from user where id = 1;返回name = ‘mongo’; |                                              |
 
-如果SessionB中的事务稍后进行了回滚，那么SessionA中的事务相当于读到了一个不存在的数据，这种现象也称为脏读。
+如果SessionB中的事务稍后进行了回滚，那么SessionA中的事务相当于读到了一个不存在的数据，这种现象也称为**脏读**。
 
 
 
