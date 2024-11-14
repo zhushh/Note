@@ -2,6 +2,7 @@
 
 ```shell
 set nocompatible
+set backspace=indent,eol,start
 set number
 filetype plugin on
 set history=1000
